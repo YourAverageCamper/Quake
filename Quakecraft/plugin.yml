@@ -1,0 +1,11 @@
+name: Quakecraft
+version: 1.0
+description: Quakecraft plugin for Minecraft
+main: me.zeus.Quakecraft.Quakecraft
+commands:
+  quake:
+    description: Core command
+    syntax: /quakecraft [args]
+  map:
+    description: Map cmomand
+    syntax: /map [args]
