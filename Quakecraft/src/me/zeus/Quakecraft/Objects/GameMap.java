@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.zeus.Quakecraft.Quakecraft;
+import me.zeus.Quakecraft.Events.GameStartEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,6 +35,7 @@ public class GameMap implements Serializable
 	int maxPlayers;
 	int minPlayers;
 	boolean inProgress = false;
+	boolean vip;
 	
 	
 	
@@ -44,6 +46,7 @@ public class GameMap implements Serializable
 		this.maxPlayers = 0;
 		this.players = new HashMap<String, QPlayer>();
 		this.spawns = new ArrayList<SerializableLocation>();
+		this.vip = false;
 	}
 	
 	
@@ -102,7 +105,10 @@ public class GameMap implements Serializable
 		return inProgress;
 	}
 	
-	
+	public boolean isVIP()
+	{
+		return vip;
+	}
 	
 	/* * * * * */
 	
@@ -172,8 +178,9 @@ public class GameMap implements Serializable
 		{
 			if (players.size() >= minPlayers)
 			{
+				Bukkit.getServer().getPluginManager().callEvent(new GameStartEvent(players, this, location, spawns, minPlayers, maxPlayers, vip));
 				start();
-				inProgress = true;
+				this.setInProgress(true);
 			}
 		}
 	}
@@ -199,7 +206,7 @@ public class GameMap implements Serializable
 			{
 				if (time < 1 || time == 0)
 				{
-					Bukkit.getServer().broadcastMessage("§6§lGame is starting!");
+					Bukkit.getServer().broadcastMessage("§6§lGame on map §3" + name + " §6is starting!");
 					cancel();
 					for (QPlayer player : players.values())
 					{
@@ -209,12 +216,20 @@ public class GameMap implements Serializable
 				if (players.size() < minPlayers)
 				{
 					cancel();
+					for (QPlayer player : players.values())
+					{
+						player.getPlayer().teleport(Quakecraft.getInstance().getGameHandler().lobby);
+						player.getPlayer().sendMessage("§4&lGame cancelled due to lack of players. Returning to lobby...");
+					}
 				}
 				for (int i : intervals)
 				{
 					if (time == i)
 					{
-						Bukkit.getServer().broadcastMessage("§6§lGame is starting in: §c" + i + " §6seconds!");
+						for (QPlayer player : players.values())
+						{
+							player.getPlayer().sendMessage("§6§lGame is starting in: §c" + i + " §6seconds!");
+						}
 					}
 				}
 				time--;
@@ -228,5 +243,9 @@ public class GameMap implements Serializable
 	{
 		Bukkit.getServer().getScheduler().cancelTask(taskID);
 	}
+	
+	
+	
+
 	
 }

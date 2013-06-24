@@ -39,5 +39,8 @@ public class EVT_PlayerJoin implements Listener
 				System.out.println("There was a critical error when saving data for " + e.getPlayer().getName() + "! Data either does not exist or is corrupt!");
 			}
 		}
+		QPlayer.get(e.getPlayer().getName()).setInGame(false);
+		QPlayer.get(e.getPlayer().getName()).setMap(null);
+		
 	}
 }

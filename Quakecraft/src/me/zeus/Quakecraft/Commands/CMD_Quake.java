@@ -3,8 +3,9 @@ package me.zeus.Quakecraft.Commands;
 
 
 import me.zeus.Quakecraft.Quakecraft;
+import me.zeus.Quakecraft.Enumeration.Upgrade;
+import me.zeus.Quakecraft.Objects.GameMap;
 import me.zeus.Quakecraft.Objects.QPlayer;
-import me.zeus.Quakecraft.Objects.Upgrade;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -40,7 +41,20 @@ public class CMD_Quake implements CommandExecutor
 		}
 		else if (args.length == 1)
 		{
-			
+			if (args[0].equals("leave"))
+			{
+				if (qp.inGame())
+				{
+					qp.setInGame(false);
+					GameMap.getMap(qp.getMap()).getPlayers().remove(sender.getName());
+					qp.setMap(null);
+					qp.getPlayer().teleport(Quakecraft.getInstance().getGameHandler().lobby);
+				}
+				else
+				{
+					sender.sendMessage("§cYou are not even in a game!");
+				}
+			}
 		}
 		else if (args.length == 2)
 		{
@@ -53,6 +67,7 @@ public class CMD_Quake implements CommandExecutor
 					if (!args[1].equalsIgnoreCase(upgrade.toString().replace("_", "")))
 						continue;
 					qp.setCurrentUpgrade(upgrade);
+					sender.sendMessage("§aEquipped " + args[1]);
 				}
 			}
 			else if (args[0].equalsIgnoreCase("unequip"))
@@ -64,6 +79,7 @@ public class CMD_Quake implements CommandExecutor
 					if (!args[1].equalsIgnoreCase(upgrade.toString().replace("_", "")))
 						continue;
 					qp.setCurrentUpgrade(Upgrade.NULL);
+					sender.sendMessage("§aUnequipped " + args[1]);
 				}
 			}
 		}
@@ -73,24 +89,20 @@ public class CMD_Quake implements CommandExecutor
 			{
 				Player player = Bukkit.getPlayer(args[2]);
 				if (player != null)
-				{
 					switch (args[1])
 					{
 						case "reset":
 							Quakecraft.getInstance().getPlayers().get(player.getName()).setPoints(0);
-							sender.sendMessage("§cReset stats for §o" + player.getName());
+							sender.sendMessage("§cReset points for §o" + player.getName());
 							break;
 					}
-				}
 			}
 		}
 		else if (args.length == 4)
-		{
 			if (args[0].equalsIgnoreCase("points"))
 			{
 				Player player = Bukkit.getPlayer(args[2]);
 				if (player != null)
-				{
 					switch (args[1])
 					{
 						case "add":
@@ -106,9 +118,7 @@ public class CMD_Quake implements CommandExecutor
 							sender.sendMessage("§9Set " + player.getName() + "'s points to §e" + args[3]);
 							break;
 					}
-				}
 			}
-		}
 		return false;
 	}
 }

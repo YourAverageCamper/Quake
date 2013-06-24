@@ -8,10 +8,17 @@ import java.util.List;
 import java.util.Random;
 
 import me.zeus.Quakecraft.Quakecraft;
+import me.zeus.Quakecraft.Enumeration.RailgunType;
+import me.zeus.Quakecraft.Enumeration.Upgrade;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 
 
@@ -27,6 +34,8 @@ public class QPlayer implements Serializable
 	int deaths;
 	List<Upgrade> upgrades;
 	Upgrade currentUpgrade;
+	transient boolean inGame;
+	transient int gameKills;
 	
 	
 	
@@ -142,6 +151,24 @@ public class QPlayer implements Serializable
 	
 	
 	
+	/**
+	 * 
+	 * @return returns if a player is in an active lobby/game
+	 */
+	public boolean inGame()
+	{
+		return inGame;
+	}
+	
+	
+	
+	public void setInGame(boolean b)
+	{
+		this.inGame = b;
+	}
+	
+	
+	
 	public void setName(String name)
 	{
 		this.name = name;
@@ -212,6 +239,20 @@ public class QPlayer implements Serializable
 	
 	
 	
+	public int getGameKills()
+	{
+		return gameKills;
+	}
+	
+	
+	
+	public void addGameKills(int i)
+	{
+		gameKills += i;
+	}
+	
+	
+	
 	public void prepare()
 	{
 		getPlayer().getInventory().clear();
@@ -219,38 +260,84 @@ public class QPlayer implements Serializable
 		switch (currentUpgrade)
 		{
 			case GUN_DIAMOND:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun(RailgunType.DIAMOND));
+				break;
+			case GUN_DIAMOND_AXE:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun(RailgunType.DAXE));
 				break;
 			case GUN_GOLD:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun(RailgunType.GOLD));
 				break;
 			case GUN_IRON:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun(RailgunType.IRON));
 				break;
 			case GUN_STONE:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun(RailgunType.STONE));
 				break;
-			case HAT_CACTUS:
+			case HAT_ICE:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.ICE, 1));
+				getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 2));
 				break;
 			case HAT_DIAMOND:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.DIAMOND_BLOCK, 1));
 				break;
 			case HAT_DISPENSER:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.DISPENSER, 1));
 				break;
 			case HAT_LANTERN:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.JACK_O_LANTERN, 1));
 				break;
 			case HAT_MAJESTIC:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.GOLD_HELMET, 1));
 				break;
 			case HAT_MELON:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.MELON, 1));
 				break;
 			case HAT_REDSTONE:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.REDSTONE_BLOCK, 1));
 				break;
 			case HAT_SPACEMAN:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.GLASS, 1));
 				break;
 			case HAT_TNT:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getInventory().setHelmet(new ItemStack(Material.TNT, 1));
 				break;
 			case KIT_COMMANDER:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				getPlayer().getPlayer().getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE, 1));
 				break;
 			case KIT_ELITE:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				ItemStack c = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+				LeatherArmorMeta meta = (LeatherArmorMeta) c.getItemMeta();
+				meta.setColor(Color.BLUE);
+				c.setItemMeta(meta);
+				getPlayer().getInventory().setChestplate(c);
 				break;
 			case KIT_MAJESTIC:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				ItemStack cc = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+				LeatherArmorMeta meta2 = (LeatherArmorMeta) cc.getItemMeta();
+				meta2.setColor(Color.YELLOW);
+				cc.setItemMeta(meta2);
+				getPlayer().getInventory().setChestplate(cc);
 				break;
 			case KIT_SOLDIER:
+				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
+				ItemStack ccc = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+				LeatherArmorMeta meta3 = (LeatherArmorMeta) ccc.getItemMeta();
+				meta3.setColor(Color.BLUE);
+				ccc.setItemMeta(meta3);
+				getPlayer().getInventory().setChestplate(ccc);
 				break;
 			case NULL:
 				getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
@@ -263,10 +350,11 @@ public class QPlayer implements Serializable
 		GameMap gm = GameMap.getMap(map);
 		if (map == null)
 			return;
-		SerializableLocation[] locs = gm.getSpawns().toArray(new SerializableLocation[gm.getSpawns().size()]);
-		int select = new Random().nextInt(locs.length) - 1;
+		SerializableLocation[] locs = gm.getSpawns().toArray(new SerializableLocation[gm.getSpawns().size() - 1]);
+		int select = new Random().nextInt(locs.length);
 		getPlayer().teleport(locs[select].getLocation());
-		getPlayer().setGameMode(GameMode.ADVENTURE);
 	}
+	
+	
 	
 }

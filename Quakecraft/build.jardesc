@@ -12,8 +12,9 @@
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <file path="/Quakecraft/.project"/>
-        <file path="/Quakecraft/.classpath"/>
         <javaElement handleIdentifier="=Quakecraft/src"/>
+        <file path="/Quakecraft/config.yml"/>
+        <file path="/Quakecraft/.classpath"/>
         <file path="/Quakecraft/plugin.yml"/>
     </selectedElements>
 </jardesc>

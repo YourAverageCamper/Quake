@@ -1,5 +1,5 @@
 
-package me.zeus.Quakecraft.Objects;
+package me.zeus.Quakecraft.Enumeration;
 
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ public enum Upgrade implements Serializable
 	
 	HAT_SPACEMAN("quakecraft.upgrades.hat.spaceman"),
 	HAT_LANTERN("quakecraft.upgrades.hat.lantern"),
-	HAT_CACTUS("quakecraft.upgrades.hat.cactus"),
+	HAT_ICE("quakecraft.upgrades.hat.ice"),
 	HAT_REDSTONE("quakecraft.upgrades.hat.redstone"),
 	HAT_DIAMOND("quakecraft.upgrades.hat.diamond"),
 	HAT_MELON("quakecraft.upgrades.hat.melon"),
@@ -29,6 +29,9 @@ public enum Upgrade implements Serializable
 	GUN_IRON("quakecraft.upgrades.guns.iron"),
 	GUN_GOLD("quakecraft.upgrades.guns.gold"),
 	GUN_DIAMOND("quakecraft.upgrades.guns.diamond"),
+	TRACKING_DEVICE("quakecraft.upgrades.misc.tracking"),
+	GUN_DIAMOND_AXE("quakecraft.upgrades.guns.diamondaxe"),
+	
 	
 	;
 	

@@ -13,14 +13,35 @@ import java.util.Map;
 
 import me.zeus.Quakecraft.Commands.CMD_Map;
 import me.zeus.Quakecraft.Commands.CMD_Quake;
+import me.zeus.Quakecraft.Enumeration.Upgrade;
+import me.zeus.Quakecraft.Events.EVT_Command;
+import me.zeus.Quakecraft.Events.EVT_GameLeave;
+import me.zeus.Quakecraft.Events.EVT_GameStart;
 import me.zeus.Quakecraft.Events.EVT_PlayerInteract;
 import me.zeus.Quakecraft.Events.EVT_PlayerJoin;
+import me.zeus.Quakecraft.Events.EVT_Quit;
+import me.zeus.Quakecraft.Events.EVT_Railgun;
+import me.zeus.Quakecraft.Events.EVT_RailgunShoot;
+import me.zeus.Quakecraft.Events.EVT_Respawn;
 import me.zeus.Quakecraft.Events.EVT_SignUpdate;
 import me.zeus.Quakecraft.Objects.GameMap;
+import me.zeus.Quakecraft.Objects.IconMenu;
 import me.zeus.Quakecraft.Objects.QPlayer;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 
 
@@ -34,8 +55,13 @@ public class Quakecraft extends JavaPlugin
 	File playersDir;
 	File signsDir;
 	File mapsDir;
+	File config;
 	Map<String, QPlayer> players;
 	Map<String, GameMap> maps;
+	IconMenu menu;
+	ScoreboardManager sb;
+	Scoreboard s;
+	Objective stats;
 	
 	
 	
@@ -54,6 +80,271 @@ public class Quakecraft extends JavaPlugin
 		init_commands();
 		init_folders();
 		init_loadData();
+		init_config();
+		
+		
+		menu = new IconMenu("§1Quake Shop", 9 * 5, new IconMenu.OptionClickEventHandler()
+		{
+			
+			
+			@Override
+			public void onOptionClick(IconMenu.OptionClickEvent event)
+			{
+				Player player = event.getPlayer();
+				QPlayer qp = QPlayer.get(player.getName());
+				switch (event.getPosition())
+				{
+					case 0:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased space hat.");
+							qp.getUpgrades().add(Upgrade.HAT_SPACEMAN);
+							qp.removePoints(700);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 1:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased lantern hat.");
+							qp.getUpgrades().add(Upgrade.HAT_LANTERN);
+							qp.removePoints(700);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 2:
+						if (qp.getPoints() > 10000)
+						{
+							player.sendMessage("§aPurchased ice hat.");
+							qp.getUpgrades().add(Upgrade.HAT_ICE);
+							qp.removePoints(10000);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 3:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased redstone hat.");
+							qp.getUpgrades().add(Upgrade.HAT_REDSTONE);
+							qp.removePoints(700);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 4:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased diamond hat.");
+							qp.getUpgrades().add(Upgrade.HAT_DIAMOND);
+							qp.removePoints(700);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 5:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased melon hat.");
+							qp.getUpgrades().add(Upgrade.HAT_MELON);
+							qp.removePoints(700);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 6:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased dispenser hat.");
+							qp.removePoints(700);
+							qp.getUpgrades().add(Upgrade.HAT_DISPENSER);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 7:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased tnt hat.");
+							qp.getUpgrades().add(Upgrade.HAT_TNT);
+							qp.removePoints(700);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 8:
+						if (qp.getPoints() > 700)
+						{
+							player.sendMessage("§aPurchased majestic hat.");
+							qp.getUpgrades().add(Upgrade.HAT_MAJESTIC);
+							qp.removePoints(700);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 9:
+						if (qp.getPoints() > 650)
+						{
+							player.sendMessage("§aPurchased Soldier Kit.");
+							qp.getUpgrades().add(Upgrade.KIT_SOLDIER);
+							qp.removePoints(650);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 10:
+						if (qp.getPoints() > 2250)
+						{
+							player.sendMessage("§aPurchased Elite Kit.");
+							qp.getUpgrades().add(Upgrade.KIT_ELITE);
+							qp.removePoints(2250);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 11:
+						if (qp.getPoints() > 2250)
+						{
+							player.sendMessage("§aPurchased Majestic Kit.");
+							qp.getUpgrades().add(Upgrade.KIT_MAJESTIC);
+							qp.removePoints(2250);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 12:
+						if (qp.getPoints() > 2250)
+						{
+							player.sendMessage("§aPurchased Commander Kit.");
+							qp.getUpgrades().add(Upgrade.KIT_COMMANDER);
+							qp.removePoints(2250);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 18:
+						if (qp.getPoints() > 1800)
+						{
+							player.sendMessage("§aPurchased BFG Gun");
+							qp.getUpgrades().add(Upgrade.GUN_STONE);
+							qp.removePoints(1800);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 19:
+						if (qp.getPoints() > 3500)
+						{
+							player.sendMessage("§aPurchased Superior Gun");
+							qp.getUpgrades().add(Upgrade.GUN_IRON);
+							qp.removePoints(3500);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 20:
+						if (qp.getPoints() > 3500)
+						{
+							player.sendMessage("§aPurchased Hyperbeam Gun");
+							qp.getUpgrades().add(Upgrade.GUN_GOLD);
+							qp.removePoints(3500);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 21:
+						if (qp.getPoints() > 3500)
+						{
+							player.sendMessage("§aPurchased Creeper Gun");
+							qp.getUpgrades().add(Upgrade.GUN_STONE);
+							qp.removePoints(3500);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+					case 22:
+						if (qp.getPoints() > 17000)
+						{
+							player.sendMessage("§aPurchased Diamond Gun");
+							qp.getUpgrades().add(Upgrade.GUN_STONE);
+							qp.removePoints(17000);
+						}
+						else
+						{
+							player.sendMessage("§cNot enough points to do this!");
+						}
+						break;
+				}
+				event.setWillClose(true);
+			}
+			//!f
+		}, this)
+		.setOption(0, new ItemStack(Material.GLASS, 1), "§cSpaceman Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(1, new ItemStack(Material.JACK_O_LANTERN, 1), "§cLantern Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(2, new ItemStack(Material.ICE, 1), "§cIce Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §610000"})
+		.setOption(3, new ItemStack(Material.REDSTONE_BLOCK, 1), "§cRedstone Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(4, new ItemStack(Material.DIAMOND_BLOCK, 1), "§cDiamond Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(5, new ItemStack(Material.MELON_BLOCK, 1), "§cMelon Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(6, new ItemStack(Material.DISPENSER, 1), "§cDispenser Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(7, new ItemStack(Material.TNT, 1), "§cTNT Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(8, new ItemStack(Material.GOLD_HELMET, 1), "§cMajestic Hat", new String[]{"§rCollect all the hats!", "", "§rPrice: §6700"})
+		.setOption(9,  new ItemStack(Material.LEATHER_CHESTPLATE, 1), "§cSoldier Kit", new String[]{"§rCosmetic Armor", "", "§rPrice: §6650"})
+		.setOption(10,  colorize(Color.BLUE), "§cElite Kit", new String[]{"§rCosmetic Armor", "", "§rPrice: §62250"})
+		.setOption(11,  colorize(Color.YELLOW), "§cMajestic Kit", new String[]{"§rCosmetic Armor", "", "§rPrice: §62250"})
+		.setOption(12,  colorize(Color.BLACK), "§cCommander Kit", new String[]{"§rCosmetic Armor", "", "§rPrice: §62250"})
+		.setOption(18, new ItemStack(Material.STONE_HOE, 1), "§cBFG", new String[]{"§rReload time: 1.4s", "§cRequires default railgun", "§rPrice: §61800" })
+		.setOption(19, new ItemStack(Material.IRON_HOE, 1), "§cSuperior Railgun", new String[]{"§rReload time: 1.3s", "", "§rPrice: §63500" })
+		.setOption(20, new ItemStack(Material.GOLD_HOE, 1), "§cHyper Beam Railgun", new String[]{"§rReload time: 1.2s", "§cRequires previous weapon", "§rPrice: §63500" })
+		.setOption(21, new ItemStack(Material.DIAMOND_HOE, 1), "§cCreeper Railgun", new String[]{"§rReload time: 1.1s", "§cRequires previous weapon", "§rPrice: §68500" })
+		.setOption(22, new ItemStack(Material.DIAMOND_HOE, 1), "§cDiamond Railgun", new String[]{"§rReload time: 0.9s", "§cRequires previous weapon", "§rPrice: §617000" })
+		.setOption(36, new ItemStack(Material.EMERALD, 1), "§aShop",  new String[] { "§7Buy cool items!", "", "§6See sidebar for points." })
+		;
+		//f
+		
+		
+		sb = Bukkit.getServer().getScoreboardManager();
+		s = sb.getNewScoreboard();
+		stats = s.registerNewObjective("stats", "dummy");
+		stats.setDisplaySlot(DisplaySlot.SIDEBAR);
+		stats.setDisplayName("§6§lStats");
+		
+		startScoreboards();
 	}
 	
 	
@@ -196,6 +487,72 @@ public class Quakecraft extends JavaPlugin
 		pm.registerEvents(new EVT_PlayerInteract(), this);
 		pm.registerEvents(new EVT_PlayerJoin(), this);
 		pm.registerEvents(new EVT_SignUpdate(), this);
+		pm.registerEvents(new EVT_Railgun(), this);
+		pm.registerEvents(new EVT_GameStart(), this);
+		pm.registerEvents(new EVT_Respawn(), this);
+		pm.registerEvents(new EVT_RailgunShoot(), this);
+		pm.registerEvents(new EVT_Command(), this);
+		pm.registerEvents(new EVT_GameLeave(), this);
+		pm.registerEvents(new EVT_Quit(), this);
+	}
+	
+	
+	
+	private void init_config()
+	{
+		config = new File(rootDir + "/config.yml");
+		if (!config.exists())
+		{
+			saveDefaultConfig();
+		}
+		String world = getConfig().getString("lobby-location.world");
+		int x = getConfig().getInt("lobby-location.x");
+		int y = getConfig().getInt("lobby-location.x");
+		int z = getConfig().getInt("lobby-location.x");
+		float pitch = Float.parseFloat(getConfig().getString("lobby-location.pitch"));
+		float yaw = Float.parseFloat(getConfig().getString("lobby-location.yaw"));
+		
+		Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+		loc.setPitch(pitch);
+		loc.setYaw(yaw);
+		
+		getGameHandler().lobby = loc;
+	}
+	
+	
+	
+	private void startScoreboards()
+	{
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
+		{
+			
+			
+			@Override
+			public void run()
+			{
+				Player[] playas = getServer().getOnlinePlayers();
+				for (int i = 0; i < playas.length; i++)
+				{
+					final QPlayer qp = QPlayer.get(playas[i].getName());
+					if (!qp.inGame())
+					{
+						updateStats(playas[i], qp);
+					}
+				}
+			}
+		}, 0L * 3, 20L * 5);
+	}
+	
+	
+	
+	private void updateStats(final Player p, final QPlayer qp)
+	{
+		
+		Score score = stats.getScore(Bukkit.getOfflinePlayer("§aCoins: "));
+		Score score2 = stats.getScore(Bukkit.getOfflinePlayer("§4Kills: "));
+		score.setScore(qp.getPoints());
+		score2.setScore(qp.getKills());
+		p.setScoreboard(s);
 	}
 	
 	
@@ -246,4 +603,23 @@ public class Quakecraft extends JavaPlugin
 	
 	
 	
+	/**
+	 * 
+	 * @return grab shop menu
+	 */
+	public IconMenu getMenu()
+	{
+		return menu;
+	}
+	
+	
+	
+	private ItemStack colorize(Color color)
+	{
+		ItemStack is = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+		LeatherArmorMeta meta = (LeatherArmorMeta) is.getItemMeta();
+		meta.setColor(color);
+		is.setItemMeta(meta);
+		return is;
+	}
 }
