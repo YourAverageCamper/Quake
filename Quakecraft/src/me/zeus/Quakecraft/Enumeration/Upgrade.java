@@ -29,8 +29,8 @@ public enum Upgrade implements Serializable
 	GUN_IRON("quakecraft.upgrades.guns.iron"),
 	GUN_GOLD("quakecraft.upgrades.guns.gold"),
 	GUN_DIAMOND("quakecraft.upgrades.guns.diamond"),
-	TRACKING_DEVICE("quakecraft.upgrades.misc.tracking"),
 	GUN_DIAMOND_AXE("quakecraft.upgrades.guns.diamondaxe"),
+	TRACKING_DEVICE("quakecraft.upgrades.misc.tracking"),
 	
 	
 	;

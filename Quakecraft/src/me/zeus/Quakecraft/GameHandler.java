@@ -19,12 +19,13 @@ public class GameHandler
 	
 	
 	ItemStack railgun;
-	
 	ItemStack diamond;
 	ItemStack iron;
 	ItemStack gold;
 	ItemStack stone;
 	ItemStack daxe;
+	
+	ItemStack shop;
 	
 	public Location lobby;
 	
@@ -68,6 +69,12 @@ public class GameHandler
 		meta6.setDisplayName("§aRailgun");
 		meta6.setLore(Arrays.asList("§5Pew Pew!"));
 		daxe.setItemMeta(meta6);
+		
+		shop = new ItemStack(Material.EMERALD, 1);
+		ItemMeta meta7 = shop.getItemMeta();
+		meta7.setDisplayName("§6Shop");
+		meta7.setLore(Arrays.asList("§aPurchase new items!", "", "§6See balance on right side."));
+		shop.setItemMeta(meta7);
 	}
 	
 	
@@ -75,6 +82,13 @@ public class GameHandler
 	public ItemStack getGun()
 	{
 		return railgun;
+	}
+	
+	
+	
+	public ItemStack getShop()
+	{
+		return shop;
 	}
 	
 	

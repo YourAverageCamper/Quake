@@ -49,8 +49,9 @@ public class EVT_Respawn implements Listener
 			@Override
 			public void run()
 			{
+				player.getPlayer().getInventory().clear();
 				player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1));
-				for (Upgrade up : player.getUpgrades())
+				for (Upgrade up : player.getCurrentUpgrades())
 				{
 					switch (up)
 					{
@@ -71,6 +72,7 @@ public class EVT_Respawn implements Listener
 							break;
 						case HAT_ICE:
 							player.getPlayer().getInventory().setHelmet(new ItemStack(Material.ICE, 1));
+							player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 2));
 							break;
 						case HAT_DIAMOND:
 							player.getPlayer().getInventory().setHelmet(new ItemStack(Material.DIAMOND_BLOCK, 1));
@@ -126,6 +128,7 @@ public class EVT_Respawn implements Listener
 						default:
 							break;
 					}
+					player.getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getGun());
 				}
 			}
 		}, 1L);

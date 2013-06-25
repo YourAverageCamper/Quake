@@ -54,11 +54,18 @@ public class EVT_PlayerInteract implements Listener
 					}
 				}
 				
-				gamemap.getPlayers().put(e.getPlayer().getName(), QPlayer.get(e.getPlayer().getName()));
-				QPlayer.get(e.getPlayer().getName()).setMap(gamemap.getName());
+				QPlayer qp = QPlayer.get(e.getPlayer().getName());
+				
+				sign.setLine(2, gamemap.getPlayers().keySet().size() + "/" + gamemap.getMaximumPlayers());
+				sign.update(true);
+				
+				Quakecraft.getInstance().getScores().toggleHideBoard(e.getPlayer());
+				gamemap.getPlayers().put(e.getPlayer().getName(), qp);
+				qp.setMap(gamemap.getName());
 				e.getPlayer().teleport(gamemap.getLocation());
-				QPlayer.get(e.getPlayer().getName()).setInGame(true);
+				qp.setInGame(true);
 				gamemap.checkPlayers();
+				
 			}
 		}
 		else if (QPlayer.get(e.getPlayer().getName()).getMap() != null)

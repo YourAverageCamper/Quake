@@ -37,11 +37,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 
 
@@ -59,9 +54,7 @@ public class Quakecraft extends JavaPlugin
 	Map<String, QPlayer> players;
 	Map<String, GameMap> maps;
 	IconMenu menu;
-	ScoreboardManager sb;
-	Scoreboard s;
-	Objective stats;
+	Scores scores;
 	
 	
 	
@@ -76,6 +69,7 @@ public class Quakecraft extends JavaPlugin
 		players = new HashMap<String, QPlayer>();
 		maps = new HashMap<String, GameMap>();
 		gameHandler = new GameHandler();
+		scores = new Scores();
 		init_events();
 		init_commands();
 		init_folders();
@@ -102,9 +96,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(700);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 1:
 						if (qp.getPoints() > 700)
@@ -114,9 +106,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(700);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 2:
 						if (qp.getPoints() > 10000)
@@ -126,9 +116,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(10000);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 3:
 						if (qp.getPoints() > 700)
@@ -138,9 +126,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(700);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 4:
 						if (qp.getPoints() > 700)
@@ -150,9 +136,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(700);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 5:
 						if (qp.getPoints() > 700)
@@ -162,9 +146,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(700);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 6:
 						if (qp.getPoints() > 700)
@@ -174,9 +156,7 @@ public class Quakecraft extends JavaPlugin
 							qp.getUpgrades().add(Upgrade.HAT_DISPENSER);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 7:
 						if (qp.getPoints() > 700)
@@ -186,9 +166,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(700);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 8:
 						if (qp.getPoints() > 700)
@@ -198,9 +176,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(700);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 9:
 						if (qp.getPoints() > 650)
@@ -210,9 +186,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(650);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 10:
 						if (qp.getPoints() > 2250)
@@ -222,9 +196,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(2250);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 11:
 						if (qp.getPoints() > 2250)
@@ -234,9 +206,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(2250);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 12:
 						if (qp.getPoints() > 2250)
@@ -246,9 +216,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(2250);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 18:
 						if (qp.getPoints() > 1800)
@@ -258,9 +226,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(1800);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 19:
 						if (qp.getPoints() > 3500)
@@ -270,9 +236,7 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(3500);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 20:
 						if (qp.getPoints() > 3500)
@@ -282,33 +246,27 @@ public class Quakecraft extends JavaPlugin
 							qp.removePoints(3500);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 21:
 						if (qp.getPoints() > 3500)
 						{
 							player.sendMessage("§aPurchased Creeper Gun");
-							qp.getUpgrades().add(Upgrade.GUN_STONE);
+							qp.getUpgrades().add(Upgrade.GUN_DIAMOND);
 							qp.removePoints(3500);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 					case 22:
 						if (qp.getPoints() > 17000)
 						{
 							player.sendMessage("§aPurchased Diamond Gun");
-							qp.getUpgrades().add(Upgrade.GUN_STONE);
+							qp.getUpgrades().add(Upgrade.GUN_DIAMOND_AXE);
 							qp.removePoints(17000);
 						}
 						else
-						{
 							player.sendMessage("§cNot enough points to do this!");
-						}
 						break;
 				}
 				event.setWillClose(true);
@@ -332,19 +290,19 @@ public class Quakecraft extends JavaPlugin
 		.setOption(19, new ItemStack(Material.IRON_HOE, 1), "§cSuperior Railgun", new String[]{"§rReload time: 1.3s", "", "§rPrice: §63500" })
 		.setOption(20, new ItemStack(Material.GOLD_HOE, 1), "§cHyper Beam Railgun", new String[]{"§rReload time: 1.2s", "§cRequires previous weapon", "§rPrice: §63500" })
 		.setOption(21, new ItemStack(Material.DIAMOND_HOE, 1), "§cCreeper Railgun", new String[]{"§rReload time: 1.1s", "§cRequires previous weapon", "§rPrice: §68500" })
-		.setOption(22, new ItemStack(Material.DIAMOND_HOE, 1), "§cDiamond Railgun", new String[]{"§rReload time: 0.9s", "§cRequires previous weapon", "§rPrice: §617000" })
+		.setOption(22, new ItemStack(Material.DIAMOND_AXE, 1), "§cDiamond Railgun", new String[]{"§rReload time: 0.9s", "§cRequires previous weapon", "§rPrice: §617000" })
 		.setOption(36, new ItemStack(Material.EMERALD, 1), "§aShop",  new String[] { "§7Buy cool items!", "", "§6See sidebar for points." })
 		;
 		//f
 		
-		
-		sb = Bukkit.getServer().getScoreboardManager();
-		s = sb.getNewScoreboard();
-		stats = s.registerNewObjective("stats", "dummy");
-		stats.setDisplaySlot(DisplaySlot.SIDEBAR);
-		stats.setDisplayName("§6§lStats");
-		
-		startScoreboards();
+		for (Player p : getServer().getOnlinePlayers())
+		{
+			if (p.getWorld().equals(getConfig().getString("quake_world")))
+				scores.addPlayer(p);
+			else
+				scores.toggleHideBoard(p);
+		}
+		init_stats();
 	}
 	
 	
@@ -502,9 +460,7 @@ public class Quakecraft extends JavaPlugin
 	{
 		config = new File(rootDir + "/config.yml");
 		if (!config.exists())
-		{
 			saveDefaultConfig();
-		}
 		String world = getConfig().getString("lobby-location.world");
 		int x = getConfig().getInt("lobby-location.x");
 		int y = getConfig().getInt("lobby-location.x");
@@ -521,7 +477,7 @@ public class Quakecraft extends JavaPlugin
 	
 	
 	
-	private void startScoreboards()
+	private void init_stats()
 	{
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
 		{
@@ -530,29 +486,15 @@ public class Quakecraft extends JavaPlugin
 			@Override
 			public void run()
 			{
-				Player[] playas = getServer().getOnlinePlayers();
-				for (int i = 0; i < playas.length; i++)
+				for (Player p : getServer().getOnlinePlayers())
 				{
-					final QPlayer qp = QPlayer.get(playas[i].getName());
-					if (!qp.inGame())
+					if (!QPlayer.get(p.getName()).inGame())
 					{
-						updateStats(playas[i], qp);
+						scores.updateBalance(p.getName());
 					}
 				}
 			}
-		}, 0L * 3, 20L * 5);
-	}
-	
-	
-	
-	private void updateStats(final Player p, final QPlayer qp)
-	{
-		
-		Score score = stats.getScore(Bukkit.getOfflinePlayer("§aCoins: "));
-		Score score2 = stats.getScore(Bukkit.getOfflinePlayer("§4Kills: "));
-		score.setScore(qp.getPoints());
-		score2.setScore(qp.getKills());
-		p.setScoreboard(s);
+		}, 20L * 5, 20L * 3);
 	}
 	
 	
@@ -621,5 +563,16 @@ public class Quakecraft extends JavaPlugin
 		meta.setColor(color);
 		is.setItemMeta(meta);
 		return is;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @return return scoreboard holder instance
+	 */
+	public Scores getScores()
+	{
+		return scores;
 	}
 }

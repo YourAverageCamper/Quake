@@ -62,11 +62,16 @@ public class CMD_Quake implements CommandExecutor
 			{
 				if (!qp.hasUpgrades())
 					return false;
+				
+				sender.sendMessage("§9You own: " + qp.getUpgrades().toString().toLowerCase().replace("_", "").replace(",", ", ").replace("[", "").replace("]", ""));
+				
 				for (Upgrade upgrade : qp.getUpgrades())
 				{
 					if (!args[1].equalsIgnoreCase(upgrade.toString().replace("_", "")))
+					{
 						continue;
-					qp.setCurrentUpgrade(upgrade);
+					}
+					qp.getCurrentUpgrades().add(upgrade);
 					sender.sendMessage("§aEquipped " + args[1]);
 				}
 			}
@@ -78,7 +83,7 @@ public class CMD_Quake implements CommandExecutor
 				{
 					if (!args[1].equalsIgnoreCase(upgrade.toString().replace("_", "")))
 						continue;
-					qp.setCurrentUpgrade(Upgrade.NULL);
+					qp.getCurrentUpgrades().remove(upgrade);
 					sender.sendMessage("§aUnequipped " + args[1]);
 				}
 			}

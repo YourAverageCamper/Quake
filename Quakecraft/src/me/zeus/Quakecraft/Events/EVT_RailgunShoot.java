@@ -10,6 +10,7 @@ import me.zeus.Quakecraft.Objects.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -34,6 +35,10 @@ public class EVT_RailgunShoot implements Listener
 			case DAXE:
 				if (Cooldown.tryCooldown(p, "fwk", 1700))
 				{
+					e.getShooter()
+					        .getWorld()
+					        .strikeLightning(
+					                new Location(e.getShooter().getWorld(), e.getShooter().getLocation().getX() + 2, e.getShooter().getLocation().getY(), e.getShooter().getLocation().getZ() + 2));
 					Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
 					fw.setVelocity(p.getLocation().getDirection());
 					FireworkMeta meta = fw.getFireworkMeta();
