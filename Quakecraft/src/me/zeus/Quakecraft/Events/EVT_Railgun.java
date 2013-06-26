@@ -9,6 +9,7 @@ import me.zeus.Quakecraft.Objects.GameMap;
 import me.zeus.Quakecraft.Objects.QPlayer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,18 +28,36 @@ public class EVT_Railgun implements Listener
 		QPlayer qdead = QPlayer.get(e.getKilled().getName());
 		final GameMap map = GameMap.getMap(qkiller.getMap());
 		
-		qkiller.addPoints(1);
+		if (qkiller.getPlayer().hasPermission("quakecraft.misc.doublepoints"))
+		{
+			qkiller.addPoints(2);
+		}
+		else
+		{
+			qkiller.addPoints(1);
+		}
+		
 		qkiller.addKills(1);
 		qkiller.addGameKills(1);
+		qkiller.getPlayer().playSound(qkiller.getPlayer().getLocation(), Sound.WITHER_DEATH, 1.0F, 1.0F);
+		qdead.getPlayer().playSound(qkiller.getPlayer().getLocation(), Sound.GHAST_SCREAM, 1.0F, 2.0F);
 		qdead.addDeaths(1);
 		
 		for (QPlayer qp : map.getPlayers().values())
+		{
 			qp.getPlayer().sendMessage("§7" + e.getKilled().getName() + " was nailed by " + e.getKiller().getName() + "'s " + e.getWeaponType().toString().toLowerCase() + " railgun!");
+		}
 		
 		if (qkiller.getGameKills() >= 30)
 		{
-			qkiller.addPoints(10);
-			
+			if (qkiller.getPlayer().hasPermission("quakecraft.misc.doublepoints"))
+			{
+				qkiller.addPoints(10);
+			}
+			else
+			{
+				qkiller.addPoints(20);
+			}
 			for (QPlayer qp : map.getPlayers().values())
 			{
 				qp.doEndGame();
@@ -65,13 +84,10 @@ public class EVT_Railgun implements Listener
 					
 					for (Player p : Bukkit.getServer().getOnlinePlayers())
 						if (!QPlayer.get(p.getName()).inGame())
-							Quakecraft.getInstance().getScores().toggleHideBoard(p);
+							Quakecraft.getInstance().getScores().updateBalance(p.getName());
 				}
 			}, 20L * 5);
-			
+			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "reload");
 		}
-		
-		
-		
 	}
 }

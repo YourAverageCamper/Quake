@@ -36,6 +36,7 @@ public class CMD_Quake implements CommandExecutor
 				
 				sender.sendMessage("§a/quake equip <name>");
 				sender.sendMessage("§a/quake unequip <name>");
+				sender.sendMessage("§a/quake upgrades clear <name>");
 				
 			}
 		}
@@ -101,6 +102,18 @@ public class CMD_Quake implements CommandExecutor
 							sender.sendMessage("§cReset points for §o" + player.getName());
 							break;
 					}
+			}
+			else if (args[0].equalsIgnoreCase("upgrades"))
+			{
+				if (args[1].equalsIgnoreCase("clear"))
+				{
+					Player player = Bukkit.getPlayer(args[2]);
+					if (player != null)
+					{
+						QPlayer.get(player.getName()).getUpgrades().clear();
+						sender.sendMessage("§aCleared " + player.getName() + "'s upgrades");
+					}
+				}
 			}
 		}
 		else if (args.length == 4)

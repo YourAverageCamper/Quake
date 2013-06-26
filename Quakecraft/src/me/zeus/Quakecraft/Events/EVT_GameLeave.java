@@ -25,14 +25,18 @@ public class EVT_GameLeave implements Listener
 		Player p = e.getPlayer();
 		QPlayer qp = e.getQPlayer();
 		final GameMap gm = GameMap.getMap(qp.getMap());
+		qp.getPlayer().getInventory().clear();
 		
 		if (gm != null)
 		{
 			gm.getPlayers().remove(p.getName());
 			qp.setMap(null);
-			qp.getPlayer().getInventory().clear();
-			qp.getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getShop());
-			if (gm.getPlayers().values().size() < gm.getMinimumPlayers())
+			if (!qp.getPlayer().getInventory().contains(Quakecraft.getInstance().getGameHandler().getShop()))
+			{
+				qp.getPlayer().getInventory().addItem(Quakecraft.getInstance().getGameHandler().getShop());
+			}
+			
+			if (gm.getPlayers().keySet().size() < gm.getMinimumPlayers())
 			{
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Quakecraft.getInstance(), new Runnable()
 				{
@@ -49,7 +53,7 @@ public class EVT_GameLeave implements Listener
 						gm.setInProgress(false);
 						gm.setPlayers(new HashMap<String, QPlayer>());
 					}
-				}, 20L * 3);
+				}, 20L * 1);
 			}
 		}
 		

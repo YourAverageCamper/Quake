@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 
@@ -27,45 +28,44 @@ public class EVT_PlayerInteract implements Listener
 			Quakecraft.getInstance().getMenu().open(e.getPlayer());
 		if (e.getClickedBlock() != null)
 		{
-			if (!e.getClickedBlock().getType().equals(Material.WALL_SIGN))
-				return;
-			
-			Sign sign = (Sign) e.getClickedBlock().getState();
-			if (isSign(sign))
+			if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
 			{
-				
-				GameMap gamemap = Quakecraft.getInstance().getMaps().get(sign.getLine(1));
-				
-				if (gamemap == null || gamemap.getLocation() == null)
+				if (!e.getClickedBlock().getType().equals(Material.WALL_SIGN))
 					return;
 				
-				if (gamemap.inProgress())
+				Sign sign = (Sign) e.getClickedBlock().getState();
+				if (isSign(sign))
 				{
-					e.getPlayer().sendMessage("§cGame is in progress.");
-					return;
-				}
-				
-				if (gamemap.isVIP())
-				{
-					if (!e.getPlayer().hasPermission("quakecraft.upgrades.vip"))
+					
+					GameMap gamemap = Quakecraft.getInstance().getMaps().get(sign.getLine(1));
+					
+					if (gamemap == null)
+						return;
+					
+					if (gamemap.inProgress())
 					{
-						e.getPlayer().sendMessage("§cSorry, that game is VIP only.");
+						e.getPlayer().sendMessage("§cGame is in progress.");
 						return;
 					}
+					
+					if (gamemap.isVIP())
+					{
+						if (!e.getPlayer().hasPermission("quakecraft.upgrades.vip"))
+						{
+							e.getPlayer().sendMessage("§cSorry, that game is VIP only.");
+							return;
+						}
+					}
+					
+					QPlayer qp = QPlayer.get(e.getPlayer().getName());
+					
+					Quakecraft.getInstance().getScores().toggleHideBoard(e.getPlayer());
+					gamemap.getPlayers().put(e.getPlayer().getName(), qp);
+					qp.setMap(gamemap.getName());
+					e.getPlayer().teleport(gamemap.getLocation());
+					qp.setInGame(true);
+					gamemap.checkPlayers();
 				}
-				
-				QPlayer qp = QPlayer.get(e.getPlayer().getName());
-				
-				sign.setLine(2, gamemap.getPlayers().keySet().size() + "/" + gamemap.getMaximumPlayers());
-				sign.update(true);
-				
-				Quakecraft.getInstance().getScores().toggleHideBoard(e.getPlayer());
-				gamemap.getPlayers().put(e.getPlayer().getName(), qp);
-				qp.setMap(gamemap.getName());
-				e.getPlayer().teleport(gamemap.getLocation());
-				qp.setInGame(true);
-				gamemap.checkPlayers();
-				
 			}
 		}
 		else if (QPlayer.get(e.getPlayer().getName()).getMap() != null)

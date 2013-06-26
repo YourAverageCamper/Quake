@@ -14,6 +14,7 @@ import java.util.Map;
 import me.zeus.Quakecraft.Commands.CMD_Map;
 import me.zeus.Quakecraft.Commands.CMD_Quake;
 import me.zeus.Quakecraft.Enumeration.Upgrade;
+import me.zeus.Quakecraft.Events.EVT_Chat;
 import me.zeus.Quakecraft.Events.EVT_Command;
 import me.zeus.Quakecraft.Events.EVT_GameLeave;
 import me.zeus.Quakecraft.Events.EVT_GameStart;
@@ -24,6 +25,7 @@ import me.zeus.Quakecraft.Events.EVT_Railgun;
 import me.zeus.Quakecraft.Events.EVT_RailgunShoot;
 import me.zeus.Quakecraft.Events.EVT_Respawn;
 import me.zeus.Quakecraft.Events.EVT_SignUpdate;
+import me.zeus.Quakecraft.Events.EVT_WorldChange;
 import me.zeus.Quakecraft.Objects.GameMap;
 import me.zeus.Quakecraft.Objects.IconMenu;
 import me.zeus.Quakecraft.Objects.QPlayer;
@@ -89,7 +91,7 @@ public class Quakecraft extends JavaPlugin
 				switch (event.getPosition())
 				{
 					case 0:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased space hat.");
 							qp.getUpgrades().add(Upgrade.HAT_SPACEMAN);
@@ -99,7 +101,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 1:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased lantern hat.");
 							qp.getUpgrades().add(Upgrade.HAT_LANTERN);
@@ -109,7 +111,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 2:
-						if (qp.getPoints() > 10000)
+						if (qp.getPoints() >= 10000)
 						{
 							player.sendMessage("§aPurchased ice hat.");
 							qp.getUpgrades().add(Upgrade.HAT_ICE);
@@ -119,7 +121,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 3:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased redstone hat.");
 							qp.getUpgrades().add(Upgrade.HAT_REDSTONE);
@@ -129,7 +131,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 4:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased diamond hat.");
 							qp.getUpgrades().add(Upgrade.HAT_DIAMOND);
@@ -139,7 +141,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 5:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased melon hat.");
 							qp.getUpgrades().add(Upgrade.HAT_MELON);
@@ -149,7 +151,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 6:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased dispenser hat.");
 							qp.removePoints(700);
@@ -159,7 +161,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 7:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased tnt hat.");
 							qp.getUpgrades().add(Upgrade.HAT_TNT);
@@ -169,7 +171,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 8:
-						if (qp.getPoints() > 700)
+						if (qp.getPoints() >= 700)
 						{
 							player.sendMessage("§aPurchased majestic hat.");
 							qp.getUpgrades().add(Upgrade.HAT_MAJESTIC);
@@ -179,7 +181,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 9:
-						if (qp.getPoints() > 650)
+						if (qp.getPoints() >= 650)
 						{
 							player.sendMessage("§aPurchased Soldier Kit.");
 							qp.getUpgrades().add(Upgrade.KIT_SOLDIER);
@@ -189,7 +191,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 10:
-						if (qp.getPoints() > 2250)
+						if (qp.getPoints() >= 2250)
 						{
 							player.sendMessage("§aPurchased Elite Kit.");
 							qp.getUpgrades().add(Upgrade.KIT_ELITE);
@@ -199,7 +201,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 11:
-						if (qp.getPoints() > 2250)
+						if (qp.getPoints() >= 2250)
 						{
 							player.sendMessage("§aPurchased Majestic Kit.");
 							qp.getUpgrades().add(Upgrade.KIT_MAJESTIC);
@@ -209,7 +211,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 12:
-						if (qp.getPoints() > 2250)
+						if (qp.getPoints() >= 2250)
 						{
 							player.sendMessage("§aPurchased Commander Kit.");
 							qp.getUpgrades().add(Upgrade.KIT_COMMANDER);
@@ -219,7 +221,7 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 18:
-						if (qp.getPoints() > 1800)
+						if (qp.getPoints() >= 1800)
 						{
 							player.sendMessage("§aPurchased BFG Gun");
 							qp.getUpgrades().add(Upgrade.GUN_STONE);
@@ -229,41 +231,69 @@ public class Quakecraft extends JavaPlugin
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 19:
-						if (qp.getPoints() > 3500)
+						if (qp.getPoints() >= 3500)
 						{
-							player.sendMessage("§aPurchased Superior Gun");
-							qp.getUpgrades().add(Upgrade.GUN_IRON);
-							qp.removePoints(3500);
+							if (qp.getUpgrades().contains(Upgrade.GUN_STONE))
+							{
+								player.sendMessage("§aPurchased Superior Gun");
+								qp.getUpgrades().add(Upgrade.GUN_IRON);
+								qp.removePoints(3500);
+							}
+							else
+							{
+								player.sendMessage("§cYou need to buy the BFG first!");
+							}
 						}
 						else
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 20:
-						if (qp.getPoints() > 3500)
+						if (qp.getPoints() >= 3500)
 						{
-							player.sendMessage("§aPurchased Hyperbeam Gun");
-							qp.getUpgrades().add(Upgrade.GUN_GOLD);
-							qp.removePoints(3500);
+							if (qp.getUpgrades().contains(Upgrade.GUN_IRON))
+							{
+								player.sendMessage("§aPurchased Hyperbeam Gun");
+								qp.getUpgrades().add(Upgrade.GUN_GOLD);
+								qp.removePoints(3500);
+							}
+							else
+							{
+								player.sendMessage("§cYou need to buy the Superior Gun first!");
+							}
 						}
 						else
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 21:
-						if (qp.getPoints() > 3500)
+						if (qp.getPoints() >= 3500)
 						{
-							player.sendMessage("§aPurchased Creeper Gun");
-							qp.getUpgrades().add(Upgrade.GUN_DIAMOND);
-							qp.removePoints(3500);
+							if (qp.getUpgrades().contains(Upgrade.GUN_GOLD))
+							{
+								player.sendMessage("§aPurchased Creeper Gun");
+								qp.getUpgrades().add(Upgrade.GUN_DIAMOND);
+								qp.removePoints(3500);
+							}
+							else
+							{
+								player.sendMessage("§cYou need to buy the Hyperbeam Gun first!");
+							}
 						}
 						else
 							player.sendMessage("§cNot enough points to do this!");
 						break;
 					case 22:
-						if (qp.getPoints() > 17000)
+						if (qp.getPoints() >= 17000)
 						{
-							player.sendMessage("§aPurchased Diamond Gun");
-							qp.getUpgrades().add(Upgrade.GUN_DIAMOND_AXE);
-							qp.removePoints(17000);
+							if (qp.getUpgrades().contains(Upgrade.GUN_DIAMOND))
+							{
+								player.sendMessage("§aPurchased Diamond Gun");
+								qp.getUpgrades().add(Upgrade.GUN_DIAMOND_AXE);
+								qp.removePoints(17000);
+							}
+							else
+							{
+								player.sendMessage("§cYou need to buy the creeper gun first!");
+							}
 						}
 						else
 							player.sendMessage("§cNot enough points to do this!");
@@ -452,6 +482,8 @@ public class Quakecraft extends JavaPlugin
 		pm.registerEvents(new EVT_Command(), this);
 		pm.registerEvents(new EVT_GameLeave(), this);
 		pm.registerEvents(new EVT_Quit(), this);
+		pm.registerEvents(new EVT_Chat(), this);
+		pm.registerEvents(new EVT_WorldChange(), this);
 	}
 	
 	
@@ -463,8 +495,8 @@ public class Quakecraft extends JavaPlugin
 			saveDefaultConfig();
 		String world = getConfig().getString("lobby-location.world");
 		int x = getConfig().getInt("lobby-location.x");
-		int y = getConfig().getInt("lobby-location.x");
-		int z = getConfig().getInt("lobby-location.x");
+		int y = getConfig().getInt("lobby-location.y");
+		int z = getConfig().getInt("lobby-location.z");
 		float pitch = Float.parseFloat(getConfig().getString("lobby-location.pitch"));
 		float yaw = Float.parseFloat(getConfig().getString("lobby-location.yaw"));
 		
@@ -472,7 +504,7 @@ public class Quakecraft extends JavaPlugin
 		loc.setPitch(pitch);
 		loc.setYaw(yaw);
 		
-		getGameHandler().lobby = loc;
+		gameHandler.lobby = loc;
 	}
 	
 	
@@ -490,6 +522,8 @@ public class Quakecraft extends JavaPlugin
 				{
 					if (!QPlayer.get(p.getName()).inGame())
 					{
+						if (p.getWorld().getName().equals(gameHandler.lobby.getWorld().getName()))
+							scores.addPlayer(p);
 						scores.updateBalance(p.getName());
 					}
 				}

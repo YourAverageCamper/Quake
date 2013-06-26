@@ -126,6 +126,8 @@ public class EVT_RailgunShoot implements Listener
 							{
 								Bukkit.getServer().getPluginManager().callEvent(new RailgunKillEvent(shooter, (Player) ee, RailgunType.grabType(shooter.getItemInHand())));
 								((Player) ee).setHealth(0);
+								Bukkit.getServer().getScheduler().cancelTask(data.taskID);
+								return;
 							}
 					if (data.time < 1)
 						Bukkit.getServer().getScheduler().cancelTask(data.taskID);

@@ -2,12 +2,18 @@
 package me.zeus.Quakecraft;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import me.zeus.Quakecraft.Enumeration.RailgunType;
+import me.zeus.Quakecraft.Objects.GameMap;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,10 +35,16 @@ public class GameHandler
 	
 	public Location lobby;
 	
+	Map<GameMap, Sign> signs;
+	
+	List<ItemStack> items;
+	
 	
 	
 	public GameHandler()
 	{
+		signs = new HashMap<GameMap, Sign>();
+		
 		railgun = new ItemStack(Material.WOOD_HOE, 1);
 		ItemMeta meta = railgun.getItemMeta();
 		meta.setDisplayName("§aRailgun");
@@ -75,6 +87,27 @@ public class GameHandler
 		meta7.setDisplayName("§6Shop");
 		meta7.setLore(Arrays.asList("§aPurchase new items!", "", "§6See balance on right side."));
 		shop.setItemMeta(meta7);
+		
+		items = new ArrayList<ItemStack>();
+		
+		ItemStack opSword = new ItemStack(Material.DIAMOND_SWORD, 1);
+		opSword.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 100);
+		opSword.addUnsafeEnchantment(Enchantment.DAMAGE_UNDEAD, 100);
+		opSword.addUnsafeEnchantment(Enchantment.DAMAGE_ARTHROPODS, 100);
+		opSword.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 100);
+		opSword.addUnsafeEnchantment(Enchantment.DURABILITY, 100);
+		items.add(opSword);
+		
+		ItemStack[] armors = new ItemStack[] { new ItemStack(Material.DIAMOND_CHESTPLATE), new ItemStack(Material.DIAMOND_HELMET), new ItemStack(Material.DIAMOND_BOOTS),
+		        new ItemStack(Material.DIAMOND_LEGGINGS) };
+		for (ItemStack i : armors)
+		{
+			i.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 100);
+			i.addUnsafeEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 100);
+			i.addUnsafeEnchantment(Enchantment.PROTECTION_FALL, 100);
+			i.addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 100);
+			i.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 100);
+		}
 	}
 	
 	
@@ -115,6 +148,13 @@ public class GameHandler
 				break;
 		}
 		return null;
+	}
+	
+	
+	
+	public List<ItemStack> getOpItems()
+	{
+		return items;
 	}
 	
 	
